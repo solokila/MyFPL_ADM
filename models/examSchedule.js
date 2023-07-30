@@ -16,7 +16,7 @@ var ExamScheduleSchema = new Schema({
         ref: 'Subject',
     },
     date: {
-        type: Date,
+        type: Date, //yyyy-mm-dd
         required: true,
     },
     shift: {

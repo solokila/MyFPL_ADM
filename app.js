@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //connect to mongodb
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/MyFPL', {
+mongoose.connect('mongodb+srv://ps25861:ps25861@cluster0.7yirlq3.mongodb.net/', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
