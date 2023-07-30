@@ -82,4 +82,69 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
+//update
+// https://myfpl-service.onrender.com/users/update/:id
+router.put('/update/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const { newUserName, passWord, class : className, newPassWord} = req.body;
+
+    // duyet sinh vien co id = id
+    const student = mpdelStudent.findById(id);
+    //kiem tra password
+    const checkPassWord = bcrypt.compareSync(passWord, student.passWord);
+    if (!checkPassWord) {
+      throw new Error('Mật khẩu không đúng');
+    }
+    //ma hoa password
+    const salt = bcrypt.genSaltSync(10); // mã hoá 10 lần
+    const hashPassWord = bcrypt.hashSync(newPassWord, salt); // mã hoá password
+
+    if (student) {
+      student.userName = userName? userName : student.userName;
+      student.passWord = hashPassWord ? hashPassWord : student.passWord;
+      student.class = className? className : student.class;
+      const result = await student.save();
+      if (result) {
+        res.json({
+          status: 200,
+          message: 'Update student successfully',
+          data: result,
+        });
+      } else {
+        throw new Error('student not found');
+      }
+    }
+        
+  } catch (error) {
+      res.json({
+          status: 400,
+          message: error.message,
+      });
+  }
+});
+
+//delete student
+// https://myfpl-service.onrender.com/users/delete/:id
+router.delete('/delete/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const student = await modelStudent.findByIdAndDelete(id);
+    if (student) {
+      res.json({
+        status: 200,
+        message: 'Delete student successfully',
+      });
+    } else {
+      throw new Error('student not found');
+    }
+  } catch (error) {
+    res.json({
+      status: 400,
+      message: error.message,
+    });
+  }
+});
+
+
 module.exports = router;

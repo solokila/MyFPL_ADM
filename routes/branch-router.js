@@ -40,12 +40,79 @@ router.get('/:id', async (req, res, next) => {
             message: error.message,
         });
     }  
-});    
+}); 
 
+// thêm branch
+// https://myfpl-service.onrender.com/branch/add
+router.post('/add', async (req, res, next) => {
+    try {
+        const { name, backGround } = req.body;
+        const newBranch = new modelBranch({
+            name,
+            backGround,
+        });
+        const result = await newBranch.save();
+        res.json({
+            status: 200,
+            message: 'Add branch successfully',
+            data: result,
+        });
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: error.message,
+        });
+    }
+});
 
+// cập nhật branch
+// https://myfpl-service.onrender.com/branch/update/:id
+router.put('/update/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const { name, backGround } = req.body;
+        const branch = modelBranch.findById(id);
+        if (branch) {
+            branch.name = name ? name : branch.name;
+            branch.backGround = backGround ? backGround : branch.backGround;
+            const result = await branch.save();
+            res.json({
+                status: 200,
+                message: 'Update branch successfully',
+                data: result,
+            });
+        } else {
+            throw new Error('Branch not found');
+        }
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: error.message,
+        });
+    }
+});
 
-
-
+// xóa branch
+// https://myfpl-service.onrender.com/branch/delete/:id
+router.delete('/delete/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const result = await modelBranch.findByIdAndDelete(id);
+        if (result) {
+            res.json({
+                status: 200,
+                message: 'Delete branch successfully',
+            });
+        } else {
+            throw new Error('Branch not found');
+        }
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: error.message,
+        });
+    }
+});
 
 
 

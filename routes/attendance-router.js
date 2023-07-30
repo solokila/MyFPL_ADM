@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var modelAttendance = require('../models/attendance');
+const e = require('express');
 
 //get all attendances
 //https://myfpl-service.onrender.com/attendance/
@@ -102,7 +103,30 @@ router.put('/update/:id', async (req, res, next) => {
                 result,
             });
         } else {
-            throw new Error('không tìm thấy attendance để update!');
+            throw new Error('Attendance not found');
+        }
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: error.message,
+        });
+    }
+});
+
+//delete attendance
+//https://myfpl-service.onrender.com/attendance/delete/:id
+router.delete('/delete/:id', async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        const result = await modelAttendance.findByIdAndDelete(id);
+        if (result) {
+            res.json({
+                status: 200,
+                message: 'Delete attendance successfully',
+                result,
+            });
+        }else{
+            throw new Error('Attendance not found');
         }
     } catch (error) {
         res.json({
