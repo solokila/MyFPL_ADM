@@ -8,7 +8,7 @@ var modelStudent = require('../models/student');
 var bcrypt = require('bcryptjs');
 
 /* GET users listing. */
-// http://localhost:3000/users/
+// https://myfpl-service.onrender.com/users/
 router.get('/', async (req, res, next) => {
   const data = await modelStudent.find();
   res.json(data);
@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 
 
 // login
-// http://localhost:3000/users/login
+// https://myfpl-service.onrender.com/users/login
 router.post('/login', async (req, res, next) => {
   const { userName, passWord } = req.body;
   const data = await modelStudent.findOne({ userName, passWord });
@@ -35,7 +35,7 @@ router.post('/login', async (req, res, next) => {
 });
 
 //register
-// http://localhost:3000/users/register
+// https://myfpl-service.onrender.com/users/register
 router.post('/register', async (req, res, next) => {
   try {
     const { userName, passWord, class: className } = req.body;

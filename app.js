@@ -37,6 +37,7 @@ mongoose.connect('mongodb+srv://ps25861:ps25861@cluster0.7yirlq3.mongodb.net/MyF
     console.log('Connect to mongodb failed :' + err);
 });
 
+//https://myfpl-service.onrender.com/
 // tạo đường dẫn cho các router
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

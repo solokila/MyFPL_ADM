@@ -3,7 +3,7 @@ var router = express.Router();
 var modelExam = require('../models/examSchedule');
 
 //get all exams
-//http://localhost:3000/exam/
+//https://myfpl-service.onrender.com/exam/
 router.get('/', async (req, res, next) => {
     try {
         const data = await modelExam.find();
@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
 });
 
 //get exam by id student and sort by date
-//http://localhost:3000/exam/id?idStudent=64c1f3a8fc13ae547c5da73a
+//https://myfpl-service.onrender.com/exam/id?idStudent=64c1f3a8fc13ae547c5da73a
 router.get('/id', async (req, res, next) => {
     try {
         const id = req.query.idStudent;

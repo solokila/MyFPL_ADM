@@ -3,7 +3,7 @@ var router = express.Router();
 var modelNotification = require('../models/notification');
 
 //get all notifications
-//http://localhost:3000/notification/
+//https://myfpl-service.onrender.com/notification/
 router.get('/', async (req, res, next) => {
     try {
         const data = await modelNotification.find();

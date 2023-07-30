@@ -3,7 +3,7 @@ var router = express.Router();
 var modelAttendance = require('../models/attendance');
 
 //get all attendances
-//http://localhost:3000/attendance/
+//https://myfpl-service.onrender.com/attendance/
 router.get('/', async (req, res, next) => {
     try {
         const data = await modelAttendance.find();
@@ -21,7 +21,7 @@ router.get('/', async (req, res, next) => {
 });
 
 //get attendance by id student
-//http://localhost:3000/attendance/id?idStudent=64c1f3a8fc13ae547c5da73e
+//https://myfpl-service.onrender.com/attendance/id?idStudent=64c1f3a8fc13ae547c5da73e
 router.get('/id', async (req, res, next) => {
     try {
         const id = req.query.idStudent;
@@ -40,7 +40,7 @@ router.get('/id', async (req, res, next) => {
 });
 
 //get attendance by term
-//http://localhost:3000/attendance/term?term=summer2021
+//https://myfpl-service.onrender.com/attendance/term?term=summer%202021
 router.get('/term', async (req, res, next) => {
     try {
         const term = req.query.term;
@@ -57,6 +57,61 @@ router.get('/term', async (req, res, next) => {
         });
     }
 });
+
+//add new attendance
+//https://myfpl-service.onrender.com/attendance/add
+router.post('/add', async (req, res, next) => {
+    try {
+        const { student_id, subject_id, count, term  } = req.body;
+        const newAttendance = new modelAttendance({
+            student_id,
+            subject_id,
+            count,
+            term,
+        });
+        const result = await newAttendance.save();
+        res.json({
+            status: 200,
+            message: 'Add new attendance successfully',
+            result,
+        });
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: error.message,
+        });
+    }
+});
+
+//update attendance
+//https://myfpl-service.onrender.com/attendance/update/:id
+router.put('/update/:id', async (req, res, next) => {
+    try {
+        const {id} = req.params;
+        const { student_id, subject_id, count, term } = req.body;
+        const product = await modelAttendance.findById(id);
+        if (product) {
+            product.student_id = student_id ? student_id : product.student_id;
+            product.subject_id = subject_id ? subject_id : product.subject_id;
+            product.count = count ? count : product.count;
+            product.term = term ? term : product.term;
+            const result = await product.save();
+            res.json({
+                status: 200,
+                message: 'Update attendance successfully',
+                result,
+            });
+        } else {
+            throw new Error('không tìm thấy attendance để update!');
+        }
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: error.message,
+        });
+    }
+});
+
 
 
 

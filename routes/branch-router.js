@@ -5,7 +5,7 @@ var router = express.Router();
 var modelBranch = require('../models/branch');
 
 // lấy tất cả các branch
-// http://localhost:3000/branch/
+// https://myfpl-service.onrender.com/branch/
 router.get('/', async (req, res, next) => {
     try {
         const data = await modelBranch.find();
@@ -22,6 +22,25 @@ router.get('/', async (req, res, next) => {
         });
     }
 });
+
+// lấy branch theo id
+// https://myfpl-service.onrender.com/branch/64c1e20bfc13ae539c5da727
+router.get('/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const data = await modelBranch.findById(id);
+        res.json({
+            status: 200,
+            message: 'Get branch successfully',
+            data,
+        });
+    } catch (error) {
+        res.json({
+            status: 400,
+            message: error.message,
+        });
+    }  
+});    
 
 
 
