@@ -16,10 +16,9 @@ var AttendanceSchema = new Schema({
         required: true,
         ref: 'Subject',
     },
-    cout: {
+    count: {
         type: Number,
         required: true,
-        default: 0,
     },
     term: {
         type: String,
