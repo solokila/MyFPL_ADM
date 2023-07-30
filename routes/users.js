@@ -18,18 +18,28 @@ router.get('/', async (req, res, next) => {
 // login
 // https://myfpl-service.onrender.com/users/login
 router.post('/login', async (req, res, next) => {
-  const { userName, passWord } = req.body;
-  const data = await modelStudent.findOne({ userName, passWord });
-  if (data) {
+  try {
+    const { userName, passWord } = req.body;
+    const student = await modelStudent.findOne({ userName: userName });
+    if (!student) {
+      throw new Error('Tên đăng nhập không tồn tại');
+    }
+
+    // kiểm tra mật khẩu
+    const checkPass = bcrypt.compareSync(passWord, student.passWord);
+    if (!checkPass) {
+      throw new Error('Mật khẩu không đúng');
+    }
+
     res.json({
       status: 200,
       message: 'Login successfully',
-      data,
+      data: student
     });
-  } else {
+  } catch (error) {
     res.json({
       status: 400,
-      message: 'Login failed',
+      error: error.message,
     });
   }
 });
@@ -47,7 +57,7 @@ router.post('/register', async (req, res, next) => {
     if (checkUser) {
       throw new Error('Tên đăng nhập đã tồn tại');
     }
-    
+
     // kiểm tra độ dài mât khẩu va tên đăng nhập
     if (userName.length < 6 || userName.length > 20) {
       throw new Error('Tên đăng nhập phải có độ dài từ 6 đến 20 ký tự');
@@ -87,7 +97,7 @@ router.post('/register', async (req, res, next) => {
 router.put('/update/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
-    const { newUserName, passWord, class : className, newPassWord} = req.body;
+    const { newUserName, passWord, class: className, newPassWord } = req.body;
 
     // duyet sinh vien co id = id
     const student = mpdelStudent.findById(id);
@@ -101,9 +111,9 @@ router.put('/update/:id', async (req, res, next) => {
     const hashPassWord = bcrypt.hashSync(newPassWord, salt); // mã hoá password
 
     if (student) {
-      student.userName = userName? userName : student.userName;
+      student.userName = userName ? userName : student.userName;
       student.passWord = hashPassWord ? hashPassWord : student.passWord;
-      student.class = className? className : student.class;
+      student.class = className ? className : student.class;
       const result = await student.save();
       if (result) {
         res.json({
@@ -115,12 +125,12 @@ router.put('/update/:id', async (req, res, next) => {
         throw new Error('student not found');
       }
     }
-        
+
   } catch (error) {
-      res.json({
-          status: 400,
-          message: error.message,
-      });
+    res.json({
+      status: 400,
+      message: error.message,
+    });
   }
 });
 
