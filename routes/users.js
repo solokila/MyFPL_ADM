@@ -100,7 +100,7 @@ router.put('/update/:id', async (req, res, next) => {
     const { newUserName, passWord, class: className, newPassWord } = req.body;
 
     // duyet sinh vien co id = id
-    const student = mpdelStudent.findById(id);
+    const student = modelStudent.findById(id);
     //kiem tra password
     const checkPassWord = bcrypt.compareSync(passWord, student.passWord);
     if (!checkPassWord) {
