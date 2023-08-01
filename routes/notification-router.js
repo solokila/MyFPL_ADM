@@ -82,7 +82,7 @@ router.put('/update/:id', async (req, res, next) => {
 //https://myfpl-service.onrender.com/notification/delete/:id
 router.delete('/delete/:id', async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const id = req.params;
         const result = await modelNotification.findByIdAndDelete(id);
         if (result) {
             res.json({
