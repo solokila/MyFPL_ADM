@@ -93,14 +93,16 @@ router.post('/register', async (req, res, next) => {
 });
 
 //update
-// https://myfpl-service.onrender.com/users/update/:id
-router.put('/update/:id', async (req, res, next) => {
+// https://myfpl-service.onrender.com/users/update/
+router.put('/update', async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const { newUserName, passWord, class: className, newPassWord } = req.body;
+    const { userName, passWord, class: className, newPassWord } = req.body;
 
-    // duyet sinh vien co id = id
-    const student = modelStudent.findById(id);
+    //duyệt sinh vien có tồn tại không
+    const student = await modelStudent.findOne({ userName: userName });
+    if (!student) {
+      throw new Error('Tên đăng nhập không tồn tại');
+    }
     //kiem tra password
     const checkPassWord = bcrypt.compareSync(passWord, student.passWord);
     if (!checkPassWord) {
