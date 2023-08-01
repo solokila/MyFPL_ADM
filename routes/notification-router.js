@@ -51,9 +51,10 @@ router.post('/add', async (req, res, next) => {
 //https://myfpl-service.onrender.com/notification/update/:id
 router.put('/update/:id', async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const {id} = req.params.id;
         const { title, content, author, type, time, date } = req.body;
-        const notification = modelNotification.findById(id);
+        const notification = await modelNotification.findById(id);
+        console.log(notification);
         if (notification) {
             notification.title = title ? title : notification.title;
             notification.content = content ? content : notification.content;
