@@ -25,13 +25,17 @@ router.get('/', async (req, res, next) => {
 router.post('/add', async (req, res, next) => {
     try {
         const { title, content, author, type, time, date } = req.body;
+
+        const parsedDate = new Date(date);
+        const parsedTime = new Date(`1970-01-01T${time}Z`);
+
         const newNotification = new modelNotification({
             title,
             content,
             author,
             type,
-            time,
-            date,
+            time:parsedTime,
+            date:parsedDate,
         });
         const result = await newNotification.save();
         res.json({
