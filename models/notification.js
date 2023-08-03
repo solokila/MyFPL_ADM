@@ -27,7 +27,7 @@ var NotificationSchema = new Schema({
 },
     {
         collection: 'Notification',
-        timestamps: true
+        timestamps: true // add createdAt, updatedAt automatically
     }
 );
 

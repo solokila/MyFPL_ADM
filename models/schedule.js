@@ -34,7 +34,7 @@ var ScheduleSchema = new Schema({
     },
     status: {
         type: Number,
-        default: 0,
+        default: 1,
     },
     room: {
         type: String,
@@ -43,14 +43,15 @@ var ScheduleSchema = new Schema({
     shift: {
         type: Number,
     },
-    date: {
-        type: Date,
-        required: true,
-    },
+    date: [
+        {
+            type: Date,
+            required: true,
+        }
+    ],
     numberOfSession: {
         type: Number,
         required: true,
-        default: 17,
     },
 },
     {
