@@ -24,18 +24,13 @@ router.get('/', async (req, res, next) => {
 //https://myfpl-service.onrender.com/notification/add
 router.post('/add', async (req, res, next) => {
     try {
-        const { title, content, author, type, time, date } = req.body;
-
-        const parsedDate = new Date(date);
-        const parsedTime = new Date(`1970-01-01T${time}Z`);
+        const { title, content, author, type } = req.body;
 
         const newNotification = new modelNotification({
             title,
             content,
             author,
             type,
-            time:parsedTime,
-            date:parsedDate,
         });
         const result = await newNotification.save();
         res.json({
@@ -44,6 +39,7 @@ router.post('/add', async (req, res, next) => {
             data: result,
         });
     } catch (error) {
+        console.log(error)
         res.json({
             status: 400,
             message: error.message,
@@ -55,17 +51,9 @@ router.post('/add', async (req, res, next) => {
 //https://myfpl-service.onrender.com/notification/update/:id
 router.put('/update/:id', async (req, res, next) => {
     try {
-        const {id} = req.params;
-        const { title, content, author, type, time, date } = req.body;
-        const notification = await modelNotification.findById(id);
+        const { id } = req.params;
+        const notification = await modelNotification.findByIdAndUpdate(id, req.body)
         if (notification) {
-            notification.title = title ? title : notification.title;
-            notification.content = content ? content : notification.content;
-            notification.author = author ? author : notification.author;
-            notification.type = type ? type : notification.type;
-            notification.time = time ? time : notification.time;
-            notification.date = date ? date : notification.date;
-            const result = await notification.save();
             res.json({
                 status: 200,
                 message: 'Update notification successfully',
@@ -86,7 +74,7 @@ router.put('/update/:id', async (req, res, next) => {
 //https://myfpl-service.onrender.com/notification/delete/:id
 router.delete('/delete/:id', async (req, res, next) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const result = await modelNotification.findByIdAndDelete(id);
         if (result) {
             res.json({

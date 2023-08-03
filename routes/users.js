@@ -96,36 +96,36 @@ router.post('/register', async (req, res, next) => {
 // https://myfpl-service.onrender.com/users/update/
 router.put('/update', async (req, res, next) => {
   try {
-    const { userName, passWord, class: className, newPassWord } = req.body;
+    const { passWord, class: className } = req.body;
 
     //duyệt sinh vien có tồn tại không
-    const student = await modelStudent.findOne({ userName: userName });
-    if (!student) {
-      throw new Error('Tên đăng nhập không tồn tại');
-    }
+    // const student = await modelStudent.findOne({ userName: userName });
+    // if (!student) {
+    //   throw new Error('Tên đăng nhập không tồn tại');
+    // }
     //kiem tra password
-    const checkPassWord = bcrypt.compareSync(passWord, student.passWord);
-    if (!checkPassWord) {
-      throw new Error('Mật khẩu không đúng');
-    }
+    // const checkPassWord = bcrypt.compareSync(passWord, student.passWord);
+    // if (!checkPassWord) {
+    //   throw new Error('Mật khẩu không đúng');
+    // }
     //ma hoa password
     const salt = bcrypt.genSaltSync(10); // mã hoá 10 lần
-    const hashPassWord = bcrypt.hashSync(newPassWord, salt); // mã hoá password
+    const hashPassWord = bcrypt.hashSync(passWord, salt); // mã hoá password
 
+    const student = await modelStudent.updateOne(
+      { userName: userName },
+      {
+        passWord: hashPassWord,
+        className
+      })
     if (student) {
-      student.userName = userName ? userName : student.userName;
-      student.passWord = hashPassWord ? hashPassWord : student.passWord;
-      student.class = className ? className : student.class;
-      const result = await student.save();
-      if (result) {
-        res.json({
-          status: 200,
-          message: 'Update student successfully',
-          data: result,
-        });
-      } else {
-        throw new Error('student not found');
-      }
+      res.json({
+        status: 200,
+        message: 'Update student successfully',
+        data: result,
+      });
+    } else {
+      throw new Error("Username không tồn tại")
     }
 
   } catch (error) {

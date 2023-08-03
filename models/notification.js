@@ -21,19 +21,13 @@ var NotificationSchema = new Schema({
     type: {
         type: Number,
         required: true,
-    },
-    time: {
-        type: Date,
-        required: true,
-        default: Date.now(),
-    },
-    date: {
-        type: Date,
-        required: true,
-    },
+    }
+    //createdAt: 
+    //updatedAt:
 },
     {
         collection: 'Notification',
+        timestamps: true
     }
 );
 
@@ -41,4 +35,4 @@ var NotificationSchema = new Schema({
 module.exports = mongoose.model.notification || mongoose.model(
     'Notification', //model name on mongodb
     NotificationSchema //model name on mongoose
-    );
+);
