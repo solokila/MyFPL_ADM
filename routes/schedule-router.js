@@ -24,14 +24,15 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-//get schedule by idStudent
+//get schedule by idStudent and sort by shift
 //https://myfpl-service.onrender.com/schedule/id?idStudent=64c93a77ba894b2a4b3542a0
 router.get('/id', async (req, res, next) => {
     try {
         const id = req.query.id;
         const query = { student_id: id};
         const data = await modelSchedule
-        .find(query);
+        .find(query)
+        .sort({shift: 1});
         res.json({
             status: 200,
             message: 'Get schedule by idStudent successfully',
