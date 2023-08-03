@@ -96,7 +96,7 @@ router.post('/register', async (req, res, next) => {
 // https://myfpl-service.onrender.com/users/update/
 router.put('/update', async (req, res, next) => {
   try {
-    const { passWord, class: className } = req.body;
+    const { passWord, class: className, userName } = req.body;
 
     //duyệt sinh vien có tồn tại không
     // const student = await modelStudent.findOne({ userName: userName });
