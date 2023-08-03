@@ -25,10 +25,10 @@ router.get('/', async (req, res, next) => {
 });
 
 //get schedule by idStudent
-//https://myfpl-service.onrender.com/schedule/id?idStudent=64c1f3a8fc13ae547c5da73a
+//https://myfpl-service.onrender.com/schedule/id?idStudent=64c93a77ba894b2a4b3542a0
 router.get('/id', async (req, res, next) => {
     try {
-        const id = req.query.idStudent;
+        const id = req.query.id;
         const query = { student_id: id};
         const data = await modelSchedule
         .find(query);
