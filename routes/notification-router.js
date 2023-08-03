@@ -57,7 +57,7 @@ router.put('/update/:id', async (req, res, next) => {
             res.json({
                 status: 200,
                 message: 'Update notification successfully',
-                data: result,
+                data: notification,
             });
         } else {
             throw new Error('Notification not found');
