@@ -122,7 +122,7 @@ router.put('/update', async (req, res, next) => {
       res.json({
         status: 200,
         message: 'Update student successfully',
-        data: result,
+        data: student,
       });
     } else {
       throw new Error("Username không tồn tại")
