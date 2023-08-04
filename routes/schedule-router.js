@@ -52,19 +52,15 @@ router.post('/add', async (req, res, next) => {
     try {
         const { 
             student_id, subject_id, description,
-             teacher, className, exemption, status, 
+             teacher, class:className, exemption, status, 
              room, shift, date, numberOfSession 
         } = req.body;
 
-        // get infomation from collection subject
-        const subject = await modelSubject.findById(subject_id);
-        const subject_name = subject.name;
-        const ID_subject = subject.idSubject;
 
         // make new schedule
         const newSchedule = new modelSchedule({
             student_id, subject_id, 
-            description : subject_name + ' - ' + ID_subject + ' - ' + description,
+            description,
             teacher, class: className, exemption, status,
             room, shift, date, numberOfSession
         });
