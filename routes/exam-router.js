@@ -46,12 +46,14 @@ router.get('/id', async (req, res, next) => {
 //https://myfpl-service.onrender.com/exam/add
 router.post('/add', async (req, res, next) => {
     try {
-        const { student_id, subject_id, date, time, room } = req.body;
+        const { student_id, subject_id, dateString, shift, room } = req.body;
+        //convert date from string to date
+        const date = new Date(dateString);
         const newExam = new modelExam({
             student_id,
             subject_id,
             date,
-            time,
+            shift,
             room,
         });
         const result = await newExam.save();
