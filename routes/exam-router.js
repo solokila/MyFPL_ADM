@@ -47,12 +47,18 @@ router.get('/id', async (req, res, next) => {
 router.post('/add', async (req, res, next) => {
     try {
         const { student_id, subject_id, dateString, shift, room } = req.body;
-        //convert date from string to date
-        const date = new Date(dateString);
+
+        // Parse dateString using a specific format (DD/MM/yyyy)
+        const parsedDate = parse(dateString, 'dd/MM/yyyy', new Date());
+        
+        // Check if parsedDate is a valid date
+        if (!isValid(parsedDate)) {
+            throw new Error('Invalid date format');
+        }
         const newExam = new modelExam({
             student_id,
             subject_id,
-            date,
+            date: parsedDate,
             shift,
             room,
         });
