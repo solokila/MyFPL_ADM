@@ -22,10 +22,10 @@ router.get('/', async (req, res, next) => {
 });
 
 //get attendance by id student
-//https://myfpl-service.onrender.com/attendance/id?idStudent=64c1f3a8fc13ae547c5da73e
+//https://myfpl-service.onrender.com/attendance/id?id=64c1f3a8fc13ae547c5da73e
 router.get('/id', async (req, res, next) => {
     try {
-        const id = req.query.idStudent;
+        const id = req.query.id;
         const data = await modelAttendance.find({ student_id: id });
         res.json({
             status: 200,

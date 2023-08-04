@@ -16,16 +16,26 @@ var AttendanceSchema = new Schema({
         required: true,
         ref: 'Subject',
     },
-    count: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
     term: {
         type: String,
         required: true,
-        default: 'No term',
+        default: 'Đang cập nhật',
     },
+    datePresent: [
+        {
+            type: Date,
+            required: true,
+            default: Date.now,
+        }
+    ],
+    dateAbsent: [
+        {
+            type: Date,
+            required: true,
+            default: Date.now,
+        }
+    ],
+
 },
     {
         collection: 'Attendance',
