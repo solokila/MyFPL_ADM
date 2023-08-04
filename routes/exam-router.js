@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var modelExam = require('../models/examSchedule');
 
-const { parse, isValid } = require('date-fns'); // For parsing date string
 
 //get all exams
 //https://myfpl-service.onrender.com/exam/
@@ -48,19 +47,12 @@ router.get('/id', async (req, res, next) => {
 //https://myfpl-service.onrender.com/exam/add
 router.post('/add', async (req, res, next) => {
     try {
-        const { student_id, subject_id, dateString, shift, room } = req.body;
-
-        // Parse dateString using a specific format (DD/MM/yyyy)
-        const parsedDate = parse(dateString, 'dd/MM/yyyy', new Date());
+        const { student_id, subject_id, date, shift, room } = req.body;
         
-        // Check if parsedDate is a valid date
-        if (!isValid(parsedDate)) {
-            throw new Error('Invalid date format');
-        }
         const newExam = new modelExam({
             student_id,
             subject_id,
-            date: parsedDate,
+            date,
             shift,
             room,
         });
