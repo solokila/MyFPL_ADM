@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var modelExam = require('../models/examSchedule');
 
+const { parse, isValid } = require('date-fns'); // For parsing date string
+
 //get all exams
 //https://myfpl-service.onrender.com/exam/
 router.get('/', async (req, res, next) => {
