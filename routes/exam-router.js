@@ -20,15 +20,15 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-//get exam by id student and sort by date
-//https://myfpl-service.onrender.com/exam/id?idStudent=64c1f3a8fc13ae547c5da73a
+//get exam by id student and sort by date and shift
+//https://myfpl-service.onrender.com/exam/id?id=64c1f3a8fc13ae547c5da73a
 router.get('/id', async (req, res, next) => {
     try {
-        const id = req.query.idStudent;
+        const id = req.query.id;
         const query = { student_id: id};
         const data = await modelExam
         .find(query)
-        .sort({date: 1});
+        .sort({date: 1, shift: 1});
         res.json({
             status: 200,
             message: 'Get exam by idStudent successfully',
