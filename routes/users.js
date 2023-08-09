@@ -14,6 +14,27 @@ router.get('/', async (req, res, next) => {
   res.json(data);
 });
 
+// dành cho admin quản lý sinh viên
+// https://myfpl-service.onrender.com/users/cpanel
+router.get('/cpanel', async (req, res, next) => {
+  try {
+    const data = await modelStudent.find();
+    res.render(
+      'sinh-vien',
+      {
+        title: 'Quản lý sinh viên',
+        data: data,
+      }
+    );
+  } catch (error) {
+    res.json({
+      status: 400,
+      message: error.message,
+    });
+  }
+});
+
+
 
 // login
 // https://myfpl-service.onrender.com/users/login
